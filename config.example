@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+GoDMC_02_result=""
+GoDMC_03_result=""
+GoDMC_04_result=""
+
+Mapper_path=""
+hase=""
+hrc_ref=""
+meta_analysis_output=""
+covariate_selection=""
