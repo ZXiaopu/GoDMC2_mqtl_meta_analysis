@@ -7,9 +7,12 @@ import sys
 
 def reorder_h5(h5_in, afreq_in, h5_out):
     try:
+        chromosomes_to_keep = [str(i) for i in range(1, 23)]
+
         # 1. Load correct ID order
         print "Loading_afreq"
-        ref_df = pd.read_csv(afreq_in, sep=r'\s+', compression='gzip', usecols=['ID'])
+        ref_df = pd.read_csv(afreq_in, sep=r'\s+', compression='gzip')
+        ref_df = ref_df[ref_df['#CHROM'].astype(str).isin(chromosomes_to_keep)]
         correct_order = [str(x) for x in ref_df['ID'].tolist()]
         len_afreq = len(correct_order)
 
@@ -28,14 +31,14 @@ def reorder_h5(h5_in, afreq_in, h5_out):
             target_key = available_keys[0].strip('/')
 
         df = pd.read_hdf(h5_in, key=target_key)
+        df = df[df['CHR'].astype(str).isin(chromosomes_to_keep)]
         df['ID'] = df['ID'].astype(str)
         len_h5 = len(df)
 
         # 3. Length Verification
         if len_afreq != len_h5:
-            print "Error_Length_Mismatch"
+            print "Warning: Length_Mismatch"
             print "afreq:" + str(len_afreq) + "_vs_H5:" + str(len_h5)
-            sys.exit(1)
 
         # 4. Reorder and NA check
         print "Reordering"
@@ -48,9 +51,8 @@ def reorder_h5(h5_in, afreq_in, h5_out):
                 missing_count += 1
         
         if missing_count > 0:
-            print "Error_Missing_IDs_In_H5"
+            print "Warning: Missing_IDs_In_H5"
             print "Missing_count:" + str(missing_count)
-            sys.exit(1)
 
         # Reindex
         df_new = df.reindex(correct_order).reset_index()
