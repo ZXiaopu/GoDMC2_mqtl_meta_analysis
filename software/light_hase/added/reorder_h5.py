@@ -7,12 +7,14 @@ import sys
 
 def reorder_h5(h5_in, afreq_in, h5_out):
     try:
-        chromosomes_to_keep = [str(i) for i in range(1, 23)]
+        #chromosomes_to_keep = [str(i) for i in range(1, 23)]
 
         # 1. Load correct ID order
         print "Loading_afreq"
         ref_df = pd.read_csv(afreq_in, sep=r'\s+', compression='gzip')
-        ref_df = ref_df[ref_df['#CHROM'].astype(str).isin(chromosomes_to_keep)]
+        ref_df['#CHROM'] = ref_df['#CHROM'].replace('X', '23')
+        ref_df['ID'] = ref_df['ID'].str.replace('X:', '23:', regex=False)
+        
         correct_order = [str(x) for x in ref_df['ID'].tolist()]
         len_afreq = len(correct_order)
 
@@ -31,8 +33,8 @@ def reorder_h5(h5_in, afreq_in, h5_out):
             target_key = available_keys[0].strip('/')
 
         df = pd.read_hdf(h5_in, key=target_key)
-        df = df[df['CHR'].astype(str).isin(chromosomes_to_keep)]
-        df['ID'] = df['ID'].astype(str)
+        #df = df[df['CHR'].astype(str).isin(chromosomes_to_keep)]
+        df['ID'] = df['ID'].str.replace('X:', '23:', regex=False)
         len_h5 = len(df)
 
         # 3. Length Verification
@@ -44,7 +46,7 @@ def reorder_h5(h5_in, afreq_in, h5_out):
         print "Reordering"
         df.set_index('ID', inplace=True)
         
-        # Check if all IDs in afreq exist in H5 before reindexing
+        # Check if all IDs in afreq exist in H5 before reindexing)
         missing_count = 0
         for snp_id in correct_order:
             if snp_id not in df.index:
