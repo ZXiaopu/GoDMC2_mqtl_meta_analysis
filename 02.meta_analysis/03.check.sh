@@ -2,6 +2,13 @@
 
 cpg_chunk=$1
 
+count=`grep "All jobs passed successfully" logs/script03/script03_cpg${cpg_chunk}_genetic* | wc -l`
+
+if [[ $count -eq 100 ]];
+then
+	echo "All jobs passed script 01 check"
+fi
+
 for genetic_chunk in $(seq 1 100);
 do
 	log_count=`grep "Writing dataset" logs/script03/script03_cpg${cpg_chunk}_genetic${genetic_chunk}.log | wc -l`
