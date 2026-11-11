@@ -17,7 +17,7 @@ meta_sub_folder=./results/meta_analysis_cpg_chunk${cpg_chunk}/meta_analysis_cpg_
 
 mkdir -p ${meta_sub_folder}/snpid_output
 
-for cpg in `ls ${meta_sub_folder}`;
+for cpg in `ls ${meta_sub_folder}/phenotype*`;
 do
 	echo $cpg
 	python 04.convert_parquet_to_snpid.py \
