@@ -2,7 +2,9 @@
 
 #SBATCH --job-name=meta_analysis
 #SBATCH --time=6:00:0
-#SBATCH --mem=40G
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=4
+#SBATCH --mem=64G
 #SBATCH --output=meta_analysis_%j.log
 
 exec > >(tee -a logs/script01_cpg${1}_genetic${2}.log) 2>&1
