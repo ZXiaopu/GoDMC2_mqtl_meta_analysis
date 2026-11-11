@@ -1,8 +1,8 @@
 #!/bin/bash
 
 #SBATCH --job-name=script03
-#SBATCH --time=3:00:0
-#SBATCH --mem=32G
+#SBATCH --time=0:30:0
+#SBATCH --mem=4G
 #SBATCH --output=script03_%j.log
 source ../config
 
@@ -10,7 +10,7 @@ cpg_chunk=$1
 genetic_chunk=$2
 exec > >(tee -a logs/script03/script03_cpg${cpg_chunk}_genetic${genetic_chunk}.log) 2>&1
 
-bash check_logs.sh ${cpg_chunk}
+bash check_log_singlechunk.sh ${cpg_chunk} ${genetic_chunk}
 
 echo "Script 03 on cpg chunk ${1} genetic_chunk ${2} starting at $(date +"%Y-%m-%d %H:%M:%S")"
 
