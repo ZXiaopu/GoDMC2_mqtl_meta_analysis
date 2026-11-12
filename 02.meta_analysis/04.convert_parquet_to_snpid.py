@@ -42,4 +42,4 @@ for file_path in parquet_files:
 	pheno_name = os.path.basename(pheno_dir)
 	out = os.path.join(args.out_dir, f"{pheno_name}_genetic_chunk{args.genetic_chunk}_26cohorts.parquet")
 
-	df.to_parquet(args.out, index=False, compression='gzip')
+	df.to_parquet(out, index=False, compression='gzip')
