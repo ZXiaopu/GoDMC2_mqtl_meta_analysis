@@ -33,7 +33,7 @@ for file_path in parquet_files:
 	df['non_effect_allele'] = df['variant_index'].map(subset_ref['str_allele2'])
 	
 	t_stats = np.abs(df['beta'].to_numpy() / df['standard_error'].to_numpy())
-	degrees_freedom = df['sample_size'].to_numpy() - 1
+	degrees_freedom = df['sample_size'].to_numpy() - 2
 	df['pvalue'] = 2 * t.sf(t_stats, df=degrees_freedom)
 
 	df.columns = df.columns.astype(str)
