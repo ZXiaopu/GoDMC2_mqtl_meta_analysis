@@ -21,3 +21,5 @@ for (genetic_chunk in c(1:100)){
 
 result <- bind_rows(res)
 write.table(result, paste0("cpg_chunk_", cpg_chunk, "_meta_results_100_genetic_chunks_combine_t4.42.csv"), col=T, row=F, sep=",", quote=F)
+
+message(paste0("All summary statistics of cpg chunk ", cpg_chunk, " have been aggregated."))
